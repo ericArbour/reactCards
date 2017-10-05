@@ -19,5 +19,3 @@ switch (blegh) {
         console.log("you");
         break;
 }
-
-console.log(<AppComponent />);
