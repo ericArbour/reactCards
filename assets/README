@@ -1,0 +1,68 @@
+IMPORTANT!!! USE THE VERSIONS OF PACKAGES THAT ARE LISTED IN THE packages.json FILE LOCATED IN THIS DIRECTORY!
+
+To start a project from scratch, I've included a package.json file with all of the proper versions of the packages that we will be using. You can either start the project with this file (followed by an npm install), or use one of the starter projects below:
+
+------------------
+01-playground:
+This is the playground that we will be using for our React Primer section. I include this so that you can use the correct version of React and Babel, in case there are breaking changes in the future.
+
+02-build-system:
+This project is the entire build system written in this course. While I recommend that everyone follows along the entire course line by line, this can be used as a starter template for our project by people who do not wish to go though writing our webpack and gulp configurations.
+
+03-full
+This is the final project as it will look at the end of this series. This project ALSO includes a GIT repository that has commits for each video in this series that contains code.
+------------------ 
+
+------------------
+A NOTE ON CARD SETS:
+I've included three card sets in this package (located under cards). I've removed most of the more... NSFW cards from those sets. This is JUST A STARTING POINT for testing purposes.
+
+If you wish to get more card sets, there is an open-source project that has a SQL (postgresql) dump of every card available in most sets, expansions, and user submitted sets. You can find that repository here:
+https://github.com/ajanata/PretendYoureXyzzy
+
+WARNING: MANY OF THE CARDS IN THE SETS AT THAT URL ARE NOT EVEN REMOTELY SAFE FOR WORK! YOU'VE BEEN WARNED!
+
+The sql dump is a file called "cah_cards.sql". If you load that into a postgresql database, you can construct a query using postgresql's built in support for JSON to spit out a handfull of JSON files that can be further parsed.
+
+The following SQL query can get you started on this process if you're interested:
+	SELECT
+		row_to_json(t)
+	FROM (
+		SELECT
+			card_set.name, 
+			(
+				SELECT
+					array_to_json(array_agg(t2))
+				FROM (
+					SELECT 
+						black_cards.text
+					FROM 
+						card_set_black_card
+					INNER JOIN
+						black_cards
+					ON
+						black_cards.id = card_set_black_card.black_card_id
+					WHERE 
+						card_set_black_card.card_set_id = card_set.id
+				) t2
+			) as "blackCards",
+			(
+				SELECT
+					array_to_json(array_agg(t3))
+				FROM (
+					SELECT 
+						white_cards.text
+					FROM 
+						card_set_white_card
+					INNER JOIN
+						white_cards
+					ON
+						white_cards.id = card_set_white_card.white_card_id
+					WHERE 
+						card_set_white_card.card_set_id = card_set.id
+				) t3
+			) as "whiteCards"
+		FROM
+			card_set
+	) t
+------------------
