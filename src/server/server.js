@@ -1,21 +1,33 @@
-const blegh = "hello world";
-console.log(`hello ${blegh}`);
+import express from "express";
+import http from "http";
 
-const obj = {hey: 1};
-const obj2 = {...obj, blegh: 2};
-console.log(obj2);
+import {isDevelopment} from "./settings";
 
-class AppComponent {
-    static PropTypes = {
-        blegh: "whoa"
-    };
-}
+//-----------------------
+// Setup
+const app = express();
+const server = new http.Server(app);
 
-switch (blegh) {
-    case 1: 
-        console.log("hey");
-        break;
-    case 2:
-        console.log("you");
-        break;
-}
+//-----------------------
+// Configuration
+app.set("view engine", "pug");
+app.use(express.static("public"));
+
+const useExternalStyles = !isDevelopment;
+const scriptRoot = isDevelopment
+    ? "http://localhost:8080/build"
+    : "/build";
+
+app.get("*", (req, res) => {
+    res.render("index", {
+        useExternalStyles, 
+        scriptRoot
+    });
+});
+
+//-----------------------
+// Startup
+const port = process.env.PORT || 3000;
+server.listen(port, () => {
+    console.log(`Started http server on ${port}`);
+});
