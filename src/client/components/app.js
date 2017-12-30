@@ -1,17 +1,24 @@
 import "./app.scss";
 
-import React from "react";
+import React, {Component} from "react";
 
 class AppContainer extends React.Component {
     componentDidMount() {
         console.log("Hello, Newman");
     }
     render() {
+        const {main, sidebar} = this.props;
         return (
-            <section>
-                <h1>Hello, Newman</h1>
-                <button onClick={this._click.bind(this)}>Click Me</button>
-            </section>
+            <div className={`c-application`}>
+                <div className="inner">
+                    <div className="sidebar">
+                        {sidebar}
+                    </div>
+                    <div className="main">
+                        {main}
+                    </div>
+                </div>
+            </div>
         );
     }
     _click() {
