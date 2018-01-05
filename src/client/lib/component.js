@@ -1,7 +1,8 @@
-import {Component, PropTypes, Children} from "react";
+import {Component, Children} from "react";
+import PropTypes from "prop-types";
 
-export class StateProvider extends Component {
-    static PropTypes = {
+export class StoreProvider extends Component {
+    static propTypes = {
         stores: PropTypes.object.isRequired,
         services: PropTypes.object.isRequired
     };
@@ -11,12 +12,13 @@ export class StateProvider extends Component {
         services: PropTypes.object.isRequired
     };
 
-    render () {
+    render() {
         return Children.only(this.props.children);
     }
 
-    getChildContent() {
+    getChildContext() {
         const {stores, services} = this.props;
+
         return {stores, services};
     }
 }
@@ -25,7 +27,7 @@ export class ContainerBase extends Component {
     static contextTypes = {
         stores: PropTypes.object.isRequired,
         services: PropTypes.object.isRequired
-    };
+    }
 
     constructor(props) {
         super(props);
@@ -37,7 +39,7 @@ export class ContainerBase extends Component {
         this._disposeFunctions.push(() => sub.unsubscribe());
     }
 
-    componentWillMount() {
+    componentWillUnMount() {
         this._disposeFunctions.forEach(d => d());
         this._disposeFunctions = [];
     }
