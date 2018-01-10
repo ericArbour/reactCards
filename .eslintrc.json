@@ -27,6 +27,6 @@
         "console": false,
         "process": false,
         "IS_PRODUCTION": false,
-        "IS_DEVELOPMENT": true
+        "IS_DEVELOPMENT": false
     }
 }
