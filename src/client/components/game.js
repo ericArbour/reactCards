@@ -13,7 +13,7 @@ class GameContainer extends ContainerBase {
         super(props);
 
         this._sendMessage = message => 
-            this.request(A.gameSendMessage(this.state.game.id, message));
+			this.request(A.gameSendMessage(this.state.game.id, message));
     }
 
     componentWillMount() {
@@ -28,6 +28,7 @@ class GameContainer extends ContainerBase {
 
         this.request(A.gameJoin(gameId));
     }
+
     render() {
         const {opJoinGame, opSendMessage, game} = this.state;
         let body = null;
@@ -41,7 +42,7 @@ class GameContainer extends ContainerBase {
             showChat = false;
         } else if (game.step == A.STEP_DISPOSED) {
             body = <section className="notice error"><p>Game doesn't exist!</p></section>;
-            showChat = false;
+            showChat = false;   
         } else if (game.step == A.STEP_SETUP) {
             body = <GameSetup />;
         } else {
@@ -49,11 +50,11 @@ class GameContainer extends ContainerBase {
         }
 
         return (
-            <div className="c-game">
-                {body}
-                {!showChat ? null :
-                    <Chat messages={game.messages} opSendMessage={opSendMessage} sendMessage={this._sendMessage} />}
-            </div>
+			<div className="c-game">
+				{body}
+				{!showChat ? null :
+					<Chat messages={game.messages} opSendMessage={opSendMessage} sendMessage={this._sendMessage} />}
+			</div>
         );
     }
 }
@@ -76,41 +77,41 @@ class GameSidebar extends ContainerBase {
         const {opLogin, game} = this.state;
 
         return (
-            <section className="c-game-sidebar">
-                <div className="m-sidebar-buttons">
-                    {!opLogin.can ? null :
-                        <button className="m-button primary" onClick={this._login}>
-                            Login to join game
-                        </button>}
+			<section className="c-game-sidebar">
+				<div className="m-sidebar-buttons">
+					{!opLogin.can ? null :
+						<button className="m-button primary" onClick={this._login}>
+							Login to join game
+						</button>}
 
-                    <button className="m-button" onClick={this._exitGame}>Leave Game</button>
-                </div>
-                {game.step == A.STEP_DISPOSED ? null :
-                    <PlayerList players={game.players} />}
-            </section>
+					<button className="m-button" onClick={this._exitGame}>Leave game</button>
+				</div>
+				{game.step == A.STEP_DISPOSED ? null :
+					<PlayerList players={game.players} />}
+			</section>
         );
     }
 }
 
 function PlayerList({players}) {
     return (
-        <ul className="c-player-list">
-            {players.map(player => {
-                const [cls, status] = getPlayerStatus(player);
-                return (
-                    <li key={player.id} className={cls}>
-                        <div className="details">
-                            <div className="name">{player.name}</div>
-                            <div className="score">
-                                {player.score}
-                                {player.score == 1 ? " point" : " points"}
-                            </div>
-                        </div>
-                        <div className="status">{status}</div>
-                    </li>
-                );
-            })}
-        </ul>
+		<ul className="c-player-list">
+			{players.map(player => {
+    const [cls, status] = getPlayerStatus(player);
+    return (
+					<li key={player.id} className={cls}>
+						<div className="details">
+							<div className="name">{player.name}</div>
+							<div className="score">
+								{player.score}
+								{player.score == 1 ? " point" : " points"}
+							</div>
+						</div>
+						<div className="status">{status}</div>
+					</li>
+    );
+})}
+		</ul>
     );
 }
 

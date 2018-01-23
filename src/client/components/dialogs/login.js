@@ -18,7 +18,6 @@ class LoginDialog extends ContainerBase {
             e.preventDefault();
             this.request(A.userLogin(this._username.value));
         };
-
     }
 
     componentWillMount() {
@@ -39,23 +38,23 @@ class LoginDialog extends ContainerBase {
         const disabled = opLogin.inProgress;
 
         return (
-            <section className="c-login-dialog">
-                <h1>Login</h1>
-                <form onSubmit={this._login} disabled={disabled}>
-                    <div className="form-row">
-                        <TextInput
-                            placeholder="username"
-                            ref={c => this._username = c}
-                            disabled={disabled || !opLogin.can} />
-                    </div>
-                    {!opLogin.error ? null :
-                        <p className="error">{opLogin.error}</p>}
-                    <div className="submit-row">
-                        <button className="m-button good" disabled={disabled || !opLogin.can}>Login</button>
-                        <button className="m-button close-button" onClick={this._close}>Close</button>
-                    </div>
-                </form>
-            </section>
+			<section className="c-login-dialog">
+				<h1>Login</h1>
+				<form onSubmit={this._login} disabled={disabled}>
+					<div className="form-row">
+						<TextInput
+							placeholder="username"
+							ref={c => this._username = c}
+							disabled={disabled || !opLogin.can} />
+					</div>
+					{!opLogin.error ? null :
+						<p className="error">{opLogin.error}</p>}
+					<div className="submit-row">
+						<button className="m-button good" disabled={disabled || !opLogin.can}>login</button>
+						<button className="m-button close-button" onClick={this._close}>close</button>
+					</div>
+				</form>
+			</section>
         );
     }
 }
